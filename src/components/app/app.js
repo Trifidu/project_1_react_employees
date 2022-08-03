@@ -57,6 +57,7 @@ class App extends Component {
           id: 6,
         },
       ],
+      term: "",
     };
     this.maxId = 7;
   }
@@ -99,12 +100,26 @@ class App extends Component {
     }));
   };
 
+  searchEmp = (items, term) => {
+    if (term.length === 0) {
+      return items;
+    }
+    return items.filter((item) => {
+      return item.name.toLowerCase().indexOf(term) > -1;
+    });
+  };
+
+  onUpdateSearch = (term) => {
+    this.setState({ term });
+  };
+
   render() {
+    const { data, term } = this.state;
     const companyName = "Test Company";
-    const employees = this.state.data.length;
-    const increasedEmployees = this.state.data.filter(
-      (item) => item.increase
-    ).length;
+    const employees = data.length;
+    const increasedEmployees = data.filter((item) => item.increase).length;
+    const visibleData = this.searchEmp(data, term);
+
     return (
       <div className="app">
         <AppInfo
@@ -114,12 +129,12 @@ class App extends Component {
         />
 
         <div className="search-panel">
-          <SearchPanel />
+          <SearchPanel onUpdateSearch={this.onUpdateSearch} />
           <AppFilter />
         </div>
 
         <EmployeesList
-          data={this.state.data}
+          data={visibleData}
           onDelete={this.deleteItem}
           onToggleProp={this.onToggleProp}
         />
