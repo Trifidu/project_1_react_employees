@@ -131,7 +131,7 @@ class App extends Component {
 
   render() {
     const { data, term, filter } = this.state;
-    const companyName = "Test Company";
+    const companyName = "Friends Inc.";
     const employees = data.length;
     const increasedEmployees = data.filter((item) => item.increase).length;
     const visibleData = this.filterPost(this.searchEmp(data, term), filter);
